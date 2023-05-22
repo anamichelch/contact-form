@@ -6,19 +6,18 @@ app = Flask(__name__)
 def get_all_posts():
     return render_template("index.html")
 
-@app.route("/contact")
+@app.route("/contact", methods=['GET', 'POST'])
 def contact():
-    return render_template("contact.html")
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        phone_number = request.form["phone_number"]
+        message = request.form["message"]
+        print(name, email, phone_number, message)
+        return render_template("contact.html", message_sent=True)
 
-@app.route("/form_entry", methods=['GET','POST'])
-def submit_data():
-    name = request.form["name"]
-    email = request.form["email"]
-    phone_number = request.form["phone_number"]
-    message = request.form["message"]
+    return render_template("contact.html",message_sent=False)
 
-    print(name,email,phone_number,message)
-    return "<h1>Successfully received your message</h1>"
 
 
 if __name__=="__main__":
